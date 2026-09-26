@@ -1,0 +1,40 @@
+{
+  "name": "facesearch-desktop",
+  "version": "1.1.0",
+  "description": "Private local face search for personal photo collections",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:renderer": "npm --prefix ../frontend run build",
+    "dist": "npm run build:renderer && electron-builder --linux AppImage deb"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.facesearch.desktop",
+    "productName": "FaceSearch",
+    "files": [
+      "main.js",
+      "preload.js"
+    ],
+    "extraResources": [
+      { "from": "../backend", "to": "backend" },
+      { "from": "../frontend/dist", "to": "frontend/dist" }
+    ],
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Graphics;Photography;Utility",
+      "artifactName": "FaceSearch-${version}-${arch}.${ext}"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.photography"
+    }
+  }
+}
